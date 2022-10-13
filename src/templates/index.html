@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Declared Vars To Go Here -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Metadata -->
+    <meta name="description" content="EGNYTE API Tests">
+    <meta name="author" content="mbek">
+    <!-- Page Name and Site Name -->
+    <title>EGNYTE API Tests - Frontend</title>
+    <!-- CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <style>
+    #ONLINE {
+    color: #04AA6D;
+    }
+    #OFFLINE {
+    color: #f44336;
+    }
+    #btn_online {
+    background-color: #04AA6D;
+    border: 3px solid;
+    border-radius: 10px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 250px;
+    }
+    #btn_offline {
+    background-color: #f44336;
+    border: 3px solid;
+    border-radius: 10px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 250px;
+    }
+    #btn_online:hover {
+    animation: pulsate_online 1s ease-in-out;
+    }
+    @keyframes pulsate_online {
+    0% {
+       box-shadow:
+       0 0 25px #33cc33,
+       0 0 50px #c2f0c2;
+       }
+    }
+    #btn_offline:hover {
+    animation: pulsate_offline 1s ease-in-out;
+    }
+    @keyframes pulsate_offline {
+    0% {
+       box-shadow:
+       0 0 25px #ff0000,
+       0 0 50px #ffb3b3;
+       }
+    }
+    #students, #universities {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    }
+    #students td, #students th, #universities td, #universities th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    }
+    #students tr:nth-child(even){background-color: #f2f2f2;}
+    #students tr:hover {background-color: #ddd;}
+    #universities tr:nth-child(even){background-color: #f2f2f2;}
+    #universities tr:hover {background-color: #ddd;}
+    #students th, #universities th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <header class="header clearfix" style="background-color: #ffffff">
+        <!-- Main Menu -->
+        <img style="margin: 5px 0px 5px 5px; float: left;" src="https://cdn-icons-png.flaticon.com/512/627/627558.png?w=826&t=st=1650654577~exp=1650655177~hmac=e428f1a62a0c7de1dad22ff0ecb444c16920c92771a02dd14495ffac0f80bafa" width="50px" />
+        <nav>
+          <ul class="nav nav-pills pull-right">
+          </ul>
+        </nav>
+        <!-- Site Name -->
+        <h1 class="h3 text-muted" >&emsp;EGNYTE API Tests</h1>
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+        </ol>
+      </header>
+      <div class="page-heading" style="text-align: center;">
+        <!-- Page Heading -->
+        <h1>The status of Application is </h1>
+        <h1 id="{{'ONLINE' if app_status == 'ONLINE' else 'OFFLINE'}}" >{{ app_status }}</h1>
+        </br>
+        <form >
+          <button id="btn_online" type="submit" class="button">Set ONLINE</button>
+          <button id="btn_offline" type="submit" class="button">Set OFFLINE</button>
+        </form>
+        <br>
+        <table id="students">
+          <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Course of Study</th>
+            <th>Year</th>
+            <th>GPA</th>
+          </tr>
+          {% for student in students %}
+          <tr>
+            {% for key, value in student.items() %}
+            <td>{{ value }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </table>
+        <br>
+        <table id="universities">
+          <tr>
+            <th>ID</th>
+            <th>University Name</th>
+            <th>City</th>
+            <th>Timezone</th>
+          </tr>
+          {% for university in universities %}
+          <tr>
+            {% for key, value in university.items() %}
+            <td>{{ value }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </table>
+        <br>
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+        </ol>
+      </div>
+    </div>
+    <footer class="footer" style="text-align: center;">
+      <p>
+        Last Visited: {{ refresh_time }}
+      </p>
+      <p>&copy; 2022 mib</p>
+    </footer>
+    <script>
+      const button_online = document.querySelector("#btn_online")
+      button_online.addEventListener('click', () => {
+        fetch('http://127.0.0.1:8080/status/', {
+          method: 'POST',
+           body: JSON.stringify({"status": "ONLINE"}),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
+        }).then((response)=>response.json())
+      });
+    </script>
+    <script>
+      const button_offline = document.querySelector("#btn_offline")
+      button_offline.addEventListener('click', () => {
+        fetch('http://127.0.0.1:8080/status/', {
+          method: 'POST',
+          body: JSON.stringify({"status": "OFFLINE"}),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
+        }).then((response)=>response.json())
+      });
+    </script>
+  </body>
+</html>
