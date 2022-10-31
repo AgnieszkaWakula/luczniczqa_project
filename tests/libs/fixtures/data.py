@@ -1,6 +1,6 @@
 import pytest
 
-from libs.testdata.students_data import StudentData
+from tests.libs.testdata.students_data import StudentData
 
 
 @pytest.fixture

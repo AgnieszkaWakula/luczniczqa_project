@@ -1,4 +1,5 @@
 pytest_plugins = [
-    "libs.fixtures.admin",
-    "libs.fixtures.quotes"
+    "tests.libs.fixtures.data",
+    "tests.libs.fixtures.admin",
+    "tests.libs.fixtures.quotes"
 ]
