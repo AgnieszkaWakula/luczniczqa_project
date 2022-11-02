@@ -16,5 +16,3 @@ class TestABC(unittest.TestCase):
 
     def tearDown(self) -> None:
         print("I'm tearDown")
-
- #   def test_1

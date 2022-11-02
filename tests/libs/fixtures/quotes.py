@@ -22,4 +22,3 @@ def create_and_delete_quote():
                     "accept": "application/json"
                     })
     assert_that(delete_quote.status_code).is_equal_to(200)
-

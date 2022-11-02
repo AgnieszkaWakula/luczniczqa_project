@@ -215,7 +215,7 @@ class TestQuotesEndpoint:
     # 1. Perform POST with GET method - 403
     # 2. POST quote, DETELE with is - 404
 
-    # NEGATIVE witg INVALID input
+    # NEGATIVE with INVALID input
     # 1. POST quote with additional payload fields
     # 2. POST quote with empty string
     # 3. POST quote with special characters (chaos fonds)
