@@ -2,15 +2,15 @@ from pydantic import BaseModel, Field, EmailStr
 
 
 class AdminModel(BaseModel):
-    fullname: str = Field(...)
+    username: str = Field(...)
     email: EmailStr = Field(...)
     password: str = Field(...)
 
     class Config:
         schema_extra = {
             "example": {
-                "fullname": "Miszka Kiszka",
-                "email": "mkiszka@egnyte.com",
+                "username": "admin",
+                "email": "mkiszka@example.com",
                 "password": "super_secret_password"
             }
         }
@@ -18,9 +18,7 @@ class AdminModel(BaseModel):
 
 def response_model(data, message):
     return {
-        "data": [
-            data
-        ],
+        "data": data,
         "code": 200,
         "message": message,
     }

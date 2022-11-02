@@ -18,20 +18,20 @@ class JWTBearer(HTTPBearer):
             if not credentials.scheme == "Bearer":
                 raise HTTPException(status_code=403,
                                     detail="Invalid authentication token",
-                                    headers={"X-Egnyte": str(uuid4())})
+                                    headers={"X-bITconf": str(uuid4())})
             if not self.verify_jwt(credentials.credentials):
                 raise HTTPException(status_code=403,
                                     detail="Invalid authentication token",
-                                    headers={"X-Egnyte": str(uuid4())})
+                                    headers={"X-bITconf": str(uuid4())})
             if not self.verify_jwt(credentials.credentials):
                 raise HTTPException(status_code=403,
                                     detail="Invalid token or expired token",
-                                    headers={"X-Egnyte": str(uuid4())})
+                                    headers={"X-bITconf": str(uuid4())})
             return credentials.credentials
         else:
             raise HTTPException(status_code=403,
                                 detail="Invalid authorization token",
-                                headers={"X-Egnyte": str(uuid4())})
+                                headers={"X-bITconf": str(uuid4())})
 
     @staticmethod
     def verify_jwt(jwt_token: str) -> bool:

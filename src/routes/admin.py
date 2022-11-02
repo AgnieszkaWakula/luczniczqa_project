@@ -16,8 +16,8 @@ hash_helper = CryptContext(schemes=["bcrypt"])
 
 @router.post("/login")
 async def admin_login(response: Response, admin_credentials: HTTPBasicCredentials = Body(...)):
-    response.headers["X-Egnyte"] = str(uuid4())
-    admin_user = await admin_collection.find_one({"email": admin_credentials.username}, {"_id": 0})
+    response.headers["X-bITconf"] = str(uuid4())
+    admin_user = await admin_collection.find_one({"username": admin_credentials.username}, {"_id": 0})
     if admin_user:
         password = hash_helper.verify(admin_credentials.password, admin_user["password"])
         if password:
@@ -25,26 +25,26 @@ async def admin_login(response: Response, admin_credentials: HTTPBasicCredential
             if not jwt_:
                 raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                                     detail="Incorrect email or password",
-                                    headers={"X-Egnyte": str(uuid4())})
+                                    headers={"X-bITconf": str(uuid4())})
             else:
                 return response_model(jwt_, "Access token retrieved successfully")
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail="Incorrect email or password",
-                            headers={"X-Egnyte": str(uuid4())})
+                            headers={"X-bITconf": str(uuid4())})
     else:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail="Incorrect email or password",
-                            headers={"X-Egnyte": str(uuid4())})
+                            headers={"X-bITconf": str(uuid4())})
 
 
-@router.post("/")
+@router.post("/create")
 async def admin_signup(response: Response, admin: AdminModel = Body(...)):
-    response.headers["X-Egnyte"] = str(uuid4())
-    admin_exists = await admin_collection.find_one({"email": admin.email}, {"_id": 0})
+    response.headers["X-bITconf"] = str(uuid4())
+    admin_exists = await admin_collection.find_one({"username": admin.username}, {"_id": 0})
     if admin_exists:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT,
-                            detail="Email already exists",
-                            headers={"X-Egnyte": str(uuid4())})
+                            detail="Username already exists",
+                            headers={"X-bITconf": str(uuid4())})
 
     admin.password = hash_helper.encrypt(admin.password)
     new_admin = await add_admin(jsonable_encoder(admin))

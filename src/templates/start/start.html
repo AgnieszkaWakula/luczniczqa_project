@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Declared Vars To Go Here -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Metadata -->
+    <meta name="description" content="bITconf API Tests">
+    <meta name="author" content="mbek">
+    <!-- Page Name and Site Name -->
+    <title>bITconf API Tests - Frontend</title>
+    <!-- CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <style>
+    #ONLINE {
+    color: #04AA6D;
+    }
+    #OFFLINE {
+    color: #f44336;
+    }
+    #btn_online {
+    background-color: #04AA6D;
+    border: 3px solid;
+    border-radius: 10px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 250px;
+    }
+    #btn_offline {
+    background-color: #f44336;
+    border: 3px solid;
+    border-radius: 10px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 250px;
+    }
+    #btn_online:hover {
+    animation: pulsate_online 1s ease-in-out;
+    }
+    @keyframes pulsate_online {
+    0% {
+       box-shadow:
+       0 0 25px #33cc33,
+       0 0 50px #c2f0c2;
+       }
+    }
+    #btn_offline:hover {
+    animation: pulsate_offline 1s ease-in-out;
+    }
+    @keyframes pulsate_offline {
+    0% {
+       box-shadow:
+       0 0 25px #ff0000,
+       0 0 50px #ffb3b3;
+       }
+    }
+    #attendees, #conferences {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    }
+    #attendees td, #attendees th, #conferences td, #conferences th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    }
+    #attendees tr:nth-child(even){background-color: #f2f2f2;}
+    #attendees tr:hover {background-color: #ddd;}
+    #conferences tr:nth-child(even){background-color: #f2f2f2;}
+    #conferences tr:hover {background-color: #ddd;}
+    #attendees th, #conferences th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+    }
+  </style>
+  <body>
+  {% include "components/navbar.html" %}
+
+    <div class="container">
+      <div class="page-heading" style="text-align: center;">
+        <!-- Page Heading -->
+        <h1>The status of Application is </h1>
+        <h1 id="{{'ONLINE' if app_status == 'ONLINE' else 'OFFLINE'}}" >{{ app_status }}</h1>
+        </br>
+        <form >
+          <button id="btn_online" type="submit" class="button" onclick="setOnline()">Set ONLINE</button>
+          <button id="btn_offline" type="submit" class="button" onclick="setOffline()">Set OFFLINE</button>
+        </form>
+        <br>
+        <table id="attendees">
+          <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Job description</th>
+            <th>Experience</th>
+            <th>Seniority</th>
+          </tr>
+          {% for attendee in attendees %}
+          <tr>
+            {% for key, value in attendee.items() %}
+            <td>{{ value }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </table>
+        <br>
+        <table id="conferences">
+          <tr>
+            <th>ID</th>
+            <th>Conference Name</th>
+            <th>City</th>
+            <th>Timezone</th>
+          </tr>
+          {% for conference in conferences %}
+          <tr>
+            {% for key, value in conference.items() %}
+            <td>{{ value }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </table>
+        <br>
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+        </ol>
+      </div>
+    </div>
+    <footer class="footer" style="text-align: center;">
+      <p>
+        Last Visited: {{ refresh_time }}
+      </p>
+      <p>&copy; 2022 mib</p>
+    </footer>
+    <script>
+      const button_online = document.querySelector("#btn_online")
+      button_online.addEventListener('click', () => {
+        fetch('http://127.0.0.1:8080/status/', {
+          method: 'POST',
+           body: JSON.stringify({"status": "ONLINE"}),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
+        }).then((response)=>response.json())
+      });
+    </script>
+    <script>
+      const button_offline = document.querySelector("#btn_offline")
+      button_offline.addEventListener('click', () => {
+        fetch('http://127.0.0.1:8080/status/', {
+          method: 'POST',
+          body: JSON.stringify({"status": "OFFLINE"}),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
+        }).then((response)=>response.json())
+      });
+    </script>
+  </body>
+</html>

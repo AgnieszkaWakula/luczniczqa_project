@@ -14,7 +14,7 @@ router = APIRouter()
 class HealthcheckStatistics:
 
     current_date: str
-    egnyte_online: bool
+    bITconf_online: bool
 
 
 async def get_healthcheck():
@@ -28,16 +28,16 @@ async def get_healthcheck():
             return message, status.HTTP_503_SERVICE_UNAVAILABLE
 
 
-async def is_egnyte_online():
+async def is_bITconf_online():
     message, status_code = await get_healthcheck()
-    return True if message["message"] == "Welcome to EGNYTE API Testing app." else False
+    return True if message["message"] == "Welcome to bITconf API Testing app." else False
 
 
 @router.get("/healthcheck")
 async def get_health(response: Response):
-    response.headers["X-Egnyte"] = str(uuid4())
-    egnyte_status = await is_egnyte_online()
+    response.headers["X-bITconf"] = str(uuid4())
+    bITconf_status = await is_bITconf_online()
     current_date = datetime.datetime.now()
     healthcheck_statistics = HealthcheckStatistics(current_date=current_date.isoformat(),
-                                                   egnyte_online=egnyte_status)
+                                                   bITconf_online=bITconf_status)
     return healthcheck_statistics

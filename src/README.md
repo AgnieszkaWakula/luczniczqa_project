@@ -1,33 +1,31 @@
-# EgnyteApiWorkshopApp
+# bITconf-API-tests
 
-Repository for Egnyte ApiWorkshop Application by Michał Bek and Jacek Stachowiak.
 
-## Getting started
+TODO: fill the documentation
 
-Clone the repository
-
-Activate virtual environment and install required packages:
+1. Download and install MongoDB
+2. https://www.mongodb.com/try/download/community
+3. Install mondoDB for Windows (follow tutorial until 5:29 https://www.youtube.com/watch?v=FwMwO8pXfq0&ab_channel=ProgrammingKnowledge)
+4. Install mongodb for Linux (follow tutorial https://www.youtube.com/watch?v=JTvGImRESzg&ab_channel=ATOM)
 
 Prepare venv:
-> python -m venv venv [windows]
+> python -m venv venv
 
-> python3 -m venv venv [linux or mac]
+Activate virtual environment:
+> .\venv\Scripts\Activate.ps1 [for PowerShell]
 
+> venv\Scripts\activate.bat [for cmd]
+
+> source venv\bin\activate [for Linux]
 
 Install packages:
-> pip install -r requirements.txt [windows]
+> pip install -r requirements.txt [for Windows]
 
-> pip3 install -r requirements.txt [linux or mac]
-
-## Run the application
-
+> pip3 install -r requirements.txt [for Linux]
 
 Run application:
-> python main.py [windows]
+> python .\main.py
 
-> python3 main.py [linux or mac]
-
-
-- [Root](http://127.0.0.1:8080/) page
-- [Swagger](http://127.0.0.1:8080/docs) documentation
-- [Front-end](http://127.0.0.1:8080/start) part
+Root page is available at: http://127.0.0.1:8080/
+Swagger is available at: http://127.0.0.1:8080/docs
+Front is available at: http://127.0.0.1:8080/start
